@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+xmlns:sec="http://www.themeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+<!-- ヘッダー -->
+<nav class="navbar navbar-inverse navbar-fixed-top navbar-light bg-light col-xl px-0">
+	<div class="container-fluid container">
+		<a th:href="@{/list}" class="navbar-brand text-primary font-weight-bold" th:text="${title}"></a>
+		<div  sec:authorize-url="/list">
+			<p>こんにちは、<span sec:authentication="principal.familyName"></span> <span sec:authentication="principal.firstName"></span>さん</p>
+			<form method="post" th:action="@{/logout}">
+				<input type="submit" value="ログアウト" class="float-right"></input>
+			</form>
+		</div>
+	</div>
+</nav>
+<!-- コンテンツ -->
+	<div layout:fragment="content" class="container"></div>
+</body>
+</html>

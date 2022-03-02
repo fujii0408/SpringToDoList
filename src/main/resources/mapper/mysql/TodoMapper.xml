@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="todo.repository.TodoMapper">
+
+<insert id="insertOne">
+insert into todo_items(
+user_id,
+item_name,
+registration_date,
+expire_date,
+finished_date
+)values(
+#{userId},
+#{itemName},
+#{registrationDate},
+#{expireDate},
+#{finishedDate}
+)
+</insert>
+
+<select id="findTodoList" resultType="Todo">
+select
+users.id as 'userId',
+todo_items.id as 'todoId',
+todo_items.item_name,
+users.user as 'userName',
+todo_items.registration_date,
+todo_items.expire_date,
+todo_items.finished_date
+from todo_items
+join users
+on todo_items.user_id = users.id
+where not todo_items.is_deleted = 1
+order by registration_date asc
+</select>
+
+<select id="findByTodoId" resultType="Todo">
+select
+users.id as 'userId',
+todo_items.id as 'todoId',
+todo_items.item_name,
+users.user as 'userName',
+todo_items.expire_date,
+todo_items.finished_date
+from todo_items
+join users
+on todo_items.user_id = users.id
+where todo_items.id = #{todoId}
+</select>
+
+<update id="updateOne">
+update todo_items
+set user_id = #{userId},
+item_name = #{itemName},
+expire_date = #{expireDate},
+finished_date = #{finishedDate}
+where id = #{todoId}
+</update>
+
+<update id="deleteOne">
+update todo_items
+set is_deleted = 1
+where id = #{todoId}
+</update>
+
+<select id="searchMany" resultType="Todo">
+select
+users.id as 'userId',
+todo_items.id as 'todoId',
+todo_items.item_name,
+users.user as 'userName',
+todo_items.registration_date,
+todo_items.expire_date,
+todo_items.finished_date
+from todo_items
+join users
+on todo_items.user_id = users.id
+where not todo_items.is_deleted = 1
+and
+(todo_items.item_name like '%${searchWord}%'
+or users.user like '%${searchWord}%')
+order by registration_date asc
+</select>
+
+<update id="finishOne">
+update todo_items
+set finished_date = #{finishedDate}
+where id = #{todoId}
+</update>
+
+<select id="findFinishedDate" resultType="Todo">
+select finished_date
+from todo_items
+where id = #{todoId}
+</select>
+
+<update id="unfinishOne">
+update todo_items
+set finished_date = null
+where id = #{todoId}
+</update>
+
+</mapper>

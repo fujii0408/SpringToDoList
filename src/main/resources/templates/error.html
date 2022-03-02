@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layout/layout}">
+<head>
+<title>Error</title>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+	<p th:text="${status} + ' ' + ${error}"></p>
+	<p th:text="${message}"></p>
+	<p class="text-danger text-center text-bold">申し訳ございません。エラーが発生しました。</p>
+</div>
+</body>
+</html>

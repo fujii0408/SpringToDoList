@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="todo.repository.UserMapper">
+
+<select id="findLoginUser" resultType="User">
+select user as 'username',
+pass as 'password',
+family_name as 'familyName',
+first_name as 'firstName'
+from users
+where user = #{userName}
+</select>
+
+<select id="findUser" resultType="int">
+select count(*)
+from users
+where user = #{username}
+and pass = #{password}
+</select>
+
+<select id="findUsers" resultType="User">
+select id as 'userId',
+user as 'username'
+from users
+</select>
+
+<select id="countExistUser" resultType="int">
+select count(*)
+from users
+where id = #{userId}
+</select>
+
+</mapper>

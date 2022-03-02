@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layout/layout}">
+<head>
+<link rel="stylesheet" th:href="@{css/list/list.css}">
+<title>作業一覧</title>
+</head>
+<body>
+<div layout:fragment="content">
+	<div class="row">
+		<div class="col-12">
+			<form method="get" th:action="@{/register}" class="float-left">
+				<button class="btn btn-primary pull-left list-form" type="submit">登録</button>
+			</form>
+			<form method="get" th:action="@{/list}" class="float-right" th:object="${searchForm}">
+				<input type="text" name="searchWord" th:field="*{searchWord}" class="list-form">
+				<input type="submit" value="検索" class="list-form">
+			</form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xl-12 table-responsive-xl">
+			<table class="table table-striped text-nowrap">
+				<thead>
+					<tr>
+						<th>項目名</th>
+						<th>担当者</th>
+						<th>登録日</th>
+						<th>期限日</th>
+						<th>完了日</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+					<tr th:each="item : ${todoList}" th:styleappend="${item.expireDate le #dates.createNow() && item.finishedDate == null} ? 'background-color: #f99;' : ''">
+						<td th:text="${item.itemName}" class="align-middle"></td>
+						<td th:text="${item.userName}" class="align-middle"></td>
+						<td th:text="${#dates.format(item.registrationDate, 'yyyy/MM/dd')}" class="align-middle"></td>
+						<td th:text="${#dates.format(item.expireDate, 'yyyy/MM/dd')}" class="align-middle"></td>
+						<td th:text="${item.finishedDate == null} ? '未' : ${#dates.format(item.finishedDate, 'yyyy/MM/dd')}" class="align-middle"></td>
+						<td class="align-middle">
+							<a th:href="@{/finish/{todoId}(todoId = ${item.todoId})}" class="btn btn-size" th:classappend="${item.finishedDate == null} ? 'btn-primary' : 'btn-secondary'" th:text="${item.finishedDate == null} ? '完了' : '未完了'"></a>
+							<a th:href="@{/update/{todoId}(todoId = ${item.todoId})}" class="btn btn-size btn-info">更新</a>
+							<a th:href="@{/delete/{todoId}(todoId = ${item.todoId})}" class="btn btn-size btn-danger">削除</a>
+						</td>
+					</tr>
+			</table>
+		</div>
+	</div>
+</div>
+</body>
+</html>
