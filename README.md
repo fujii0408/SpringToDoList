@@ -1,4 +1,13 @@
 # todoList
 Todo管理のWebアプリケーション
 
-これはテストです。
+使用言語
+- Java
+- HTML
+- CSS
+- SQL
+
+フレームワーク
+- Spring Boot
+- MyBatis
+- Bootstrap
